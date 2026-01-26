@@ -1,15 +1,9 @@
-from app import generate_sine_array, generate_gaussian_array, generate_lorenz_array
-from app import compute_entropy_complexity
+from app import *
 
 
-def results(name, entropy, complexity):
-    print(f"\n{name}:")
-    print(f"  Entropy: {entropy:.4f}")
-    print(f"  Complexity: {complexity:.4f}")
 
-
-def main():
-
+if __name__ == "__main__":
+    
     sine_array = generate_sine_array()
     gaussian_array = generate_gaussian_array()
     lorenz_array = generate_lorenz_array()
@@ -22,7 +16,3 @@ def main():
     
     entropy_lorenz, complexity_lorenz = compute_entropy_complexity(lorenz_array)
     results("Lorenz series", entropy_lorenz, complexity_lorenz)
-    
-
-if __name__ == "__main__":
-    main()

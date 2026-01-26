@@ -2,7 +2,7 @@
 name = "course-paper"
 version = "0.1.0"
 description = "Entropy and complexity analysis of time series data"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Timur Toktamysov <timur.toktamysov@gmail.com>"]
 readme = "README.md"
 packages = [{include = "app"}]
 

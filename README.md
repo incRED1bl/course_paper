@@ -1,4 +1,4 @@
-# Course Paper: Entropy and Complexity Analysis
+# Entropy and Complexity Analysis
 
 Entropy and complexity analysis of time series data using permutation entropy method.
 
