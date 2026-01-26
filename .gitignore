@@ -4,9 +4,18 @@ __pycache__/
 *$py.class
 *.so
 .Python
+
+# Virtual environments
 env/
 venv/
 ENV/
+.venv/
+
+# Poetry
+.venv/
+poetry.lock  # Remove this line if you want to commit the lock file
+
+# Build and distribution
 build/
 develop-eggs/
 dist/

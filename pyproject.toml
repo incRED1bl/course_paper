@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "course-paper"
+version = "0.1.0"
+description = "Entropy and complexity analysis of time series data"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "app"}]
+
+[tool.poetry.dependencies]
+python = "^3.13"
+numpy = "^2.4.0"
+scipy = "^1.17.0"
+
+[tool.poetry.group.dev.dependencies]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

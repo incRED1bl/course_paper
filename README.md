@@ -1,25 +1,30 @@
-# Course Paper Setup and Run Guide
+# Course Paper: Entropy and Complexity Analysis
 
-## Steps to Run the Project
+Entropy and complexity analysis of time series data using permutation entropy method.
 
-### Step 1: Setup Environment
-Run the setup script to create virtual environment and install dependencies:
+## Requirements
+
+- Python 3.13+
+- Poetry (dependency manager)
+
+## Setup
+
+### Install Poetry (if not installed)
+
 ```bash
-./setup_env.sh
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-### Step 2: Activate Virtual Environment
-Activate the virtual environment:
+More options: https://python-poetry.org/docs/#installation
+
+### Run the Project
+
 ```bash
-source venv/bin/activate
+# Install dependencies
+poetry install
+
+# Run the program
+poetry run python main.py
 ```
 
-### Step 3: Run the Program
-Execute the main script:
-```bash
-python3 main.py
-```
-
----
-
-**Note:** You only need to run Step 1 once. For subsequent runs, just do Steps 2 and 3.
+That's it! 🚀

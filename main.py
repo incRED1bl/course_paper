@@ -1,5 +1,5 @@
-from array import generate_sine_array, generate_gaussian_array, generate_lorenz_array
-from func import compute_entropy_complexity
+from app import generate_sine_array, generate_gaussian_array, generate_lorenz_array
+from app import compute_entropy_complexity
 
 
 def results(name, entropy, complexity):
