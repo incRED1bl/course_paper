@@ -3,16 +3,11 @@ from app import *
 
 
 if __name__ == "__main__":
+    signals, sample_rate = generate_sample_signals()
     
-    sine_array = generate_sine_array()
-    gaussian_array = generate_gaussian_array()
-    lorenz_array = generate_lorenz_array()
+    m = 3
+    tau = 1
     
-    entropy_sine, complexity_sine = compute_entropy_complexity(sine_array)
-    results("Sine wave", entropy_sine, complexity_sine)
-    
-    entropy_gaussian, complexity_gaussian = compute_entropy_complexity(gaussian_array)
-    results("Gaussian noise", entropy_gaussian, complexity_gaussian)
-    
-    entropy_lorenz, complexity_lorenz = compute_entropy_complexity(lorenz_array)
-    results("Lorenz series", entropy_lorenz, complexity_lorenz)
+    for disease_name, signal_data in signals.items():
+        entropy, complexity = compute_entropy_complexity(signal_data, m=m, tau=tau)
+        results(disease_name, entropy, complexity)

@@ -1,12 +1,5 @@
 # Entropy and Complexity Analysis
 
-Entropy and complexity analysis of time series data using permutation entropy method.
-
-## Requirements
-
-- Python 3.13+
-- Poetry (dependency manager)
-
 ## Setup
 
 ### Install Poetry (if not installed)
@@ -26,5 +19,9 @@ poetry install
 # Run the program
 poetry run python main.py
 ```
+
+### Interactive Analysis
+
+Open `visual.ipynb` in VS Code or Jupyter for interactive visualizations and analysis.
 
 That's it! 🚀
