@@ -1,6 +1,6 @@
 import numpy as np
 from .data_preprocessing import extract_frequency_features, detect_whistles
-from .func import compute_entropy_complexity
+from .entropy_complexity import compute_entropy_complexity
 
 
 def extract_all_features(signals, sample_rate, m=3, tau=1):

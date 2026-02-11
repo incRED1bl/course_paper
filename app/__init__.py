@@ -5,7 +5,7 @@ from .data_preprocessing import (
     detect_whistles,
     preprocess_lung_sound
 )
-from .func import compute_entropy_complexity, results
+from .entropy_complexity import compute_entropy_complexity, results
 from .data_generation import generate_sample_signals
 from .feature_extraction import extract_all_features, build_feature_summary, print_feature_summary
 from .visualization import (

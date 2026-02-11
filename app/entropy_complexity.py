@@ -78,6 +78,5 @@ def compute_entropy_complexity(y, m=3, tau=1):
 
 
 def results(name, entropy, complexity):
-    print(f"\n{name}:")
-    print(f"  Entropy: {entropy:.4f}")
-    print(f"  Complexity: {complexity:.4f}")
+    """Store results (no output - see notebook for visualizations)"""
+    pass
