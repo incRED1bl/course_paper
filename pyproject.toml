@@ -12,6 +12,7 @@ numpy = "^2.4.0"
 scipy = "^1.17.0"
 matplotlib = "^3.9.0"
 ipykernel = "^6.29.0"
+kagglehub = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 

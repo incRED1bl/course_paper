@@ -1,11 +1,15 @@
-import numpy as np
-from .entropy_complexity import compute_entropy_complexity
+"""
+Вспомогательные функции для работы с данными.
+Используются в Google Colab и локально для извлечения признаков.
 
-# Note: Preprocessing functions (extract_frequency_features, detect_whistles) 
-# are in colab_utils.py for use in Google Colab
+Note: extract_frequency_features и detect_whistles находятся в colab_utils.py
+"""
+import numpy as np
+from app.entropy_complexity import compute_entropy_complexity
 
 
 def extract_all_features(signals, sample_rate, m=3, tau=1):
+    """Extract frequency features, whistle detection, and entropy-complexity for all signals."""
     features_dict = {}
     whistle_results = {}
     entropy_complexity = {}
@@ -34,6 +38,7 @@ def extract_all_features(signals, sample_rate, m=3, tau=1):
 
 
 def build_feature_summary(signals, features_dict, whistle_results, entropy_complexity):
+    """Build a comprehensive feature summary dictionary for all signals."""
     disease_features = {}
     
     for disease_name in signals.keys():
@@ -60,6 +65,7 @@ def build_feature_summary(signals, features_dict, whistle_results, entropy_compl
 
 
 def print_feature_summary(disease_features):
+    """Print a formatted summary of all extracted features."""
     print("Feature Summary:")
     print("-" * 80)
     for disease, features in disease_features.items():

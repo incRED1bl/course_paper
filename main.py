@@ -8,43 +8,36 @@ from app import *
 
 
 if __name__ == "__main__":
-    stages = [
-        "Loading modules...",
-        "Initializing analysis...",
-        "Generating signals...",
-        "Processing Healthy samples...",
-        "Processing Diseased samples...",
-        "Processing COPD samples...",
-        "Finalizing results..."
-    ]
+    print("\r✅ Modules loaded!" + " " * 50)
+    print("\n" + "=" * 70)
+    print("  Respiratory Sound Analysis - VS Code")
+    print("=" * 70)
     
-    total = len(stages)
+    print("\n🧠 Analysis Functions Available:")
+    print("   • compute_entropy_complexity() - Calculate entropy & complexity")
+    print("   • extract_all_features() - Feature extraction")
+    print("   • build_feature_summary() - Build feature table")
     
-    for i, stage in enumerate(stages):
-        if i > 0:  # First stage already printed
-            print(f"\r⏳ {stage}", end="", flush=True)
-            
-            if i == 1:
-                # Already imported, just pause
-                time.sleep(0.2)
-            elif i == 2:
-                signals, sample_rate = generate_sample_signals()
-                time.sleep(0.3)
-            elif i == 3:
-                m, tau = 3, 1
-                signal_data = signals['Healthy']
-                entropy, complexity = compute_entropy_complexity(signal_data, m=m, tau=tau)
-                time.sleep(0.3)
-            elif i == 4:
-                signal_data = signals['Diseased']
-                entropy, complexity = compute_entropy_complexity(signal_data, m=m, tau=tau)
-                time.sleep(0.3)
-            elif i == 5:
-                signal_data = signals['COPD']
-                entropy, complexity = compute_entropy_complexity(signal_data, m=m, tau=tau)
-                time.sleep(0.3)
-            else:
-                time.sleep(0.2)
+    print("\n📊 Visualization Functions:")
+    print("   • All visualization code is in colab_notebook.ipynb")
+    print("   • 6 plotting functions built into the notebook")
+    print("   • No separate visual/ module needed")
     
-    print("\r✅ Analysis complete!" + " " * 50)
-    print("📊 Open visual.ipynb for detailed results")
+    print("\n" + "─" * 70)
+    print("\n🚀 WORKFLOW:")
+    print("\n  1️⃣  Open colab/colab_notebook.ipynb in Google Colab")
+    print("  2️⃣  Run analysis with 3.69GB dataset")
+    print("  3️⃣  Download results (features.pkl, model.pkl)")
+    print("  4️⃣  Use results here in VS Code")
+    
+    print("\n📝 Example - Load Colab Results:")
+    print("   import pickle")
+    print("   with open('features.pkl', 'rb') as f:")
+    print("       data = pickle.load(f)")
+    
+    print("\n📚 Documentation:")
+    print("   • README.md - Project overview")
+    print("   • COLAB_GUIDE.md - Step-by-step Colab guide")
+    print("   • colab/colab_notebook.ipynb - All-in-one Colab notebook")
+    
+    print("\n" + "=" * 70)
