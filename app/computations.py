@@ -1,12 +1,14 @@
+"""
+Low-level mathematical helper functions for feature computations.
+These are internal functions used by features.py.
+"""
 import numpy as np
 from collections import Counter
 from itertools import permutations
-import math
-
-
 
 
 def _construct_embedded_vectors(y, m, tau):
+    """Construct embedded vectors from time series using time delay embedding."""
     n_vectors = len(y) - (m - 1) * tau
     if n_vectors <= 0:
         raise ValueError("Time series too short for given m and tau")
@@ -15,10 +17,12 @@ def _construct_embedded_vectors(y, m, tau):
 
 
 def _compute_ordinal_patterns(embedded_vectors):
+    """Convert embedded vectors to ordinal patterns (permutations)."""
     return [tuple(np.argsort(vector)) for vector in embedded_vectors]
 
 
 def _build_probability_distributions(ordinal_patterns, m):
+    """Build probability distributions from ordinal patterns."""
     pattern_counts = Counter(ordinal_patterns)
     total_patterns = len(ordinal_patterns)
     
@@ -37,46 +41,22 @@ def _build_probability_distributions(ordinal_patterns, m):
 
 
 def _compute_shannon_entropy(distribution):
+    """Compute Shannon entropy of a probability distribution."""
     return -np.sum(distribution * np.log(distribution + 1e-12))
 
 
 def _compute_jensen_shannon_divergence(P_full, P_uniform, S_P, S_Pu):
+    """Compute Jensen-Shannon divergence between two distributions."""
     M = (P_full + P_uniform) / 2
     S_M = _compute_shannon_entropy(M)
     return S_M - 0.5 * S_P - 0.5 * S_Pu
 
 
 def _compute_max_divergence(P_uniform, S_Pu):
+    """Compute maximum possible Jensen-Shannon divergence."""
     P_delta = np.zeros(len(P_uniform))
     P_delta[0] = 1.0
     M_max = (P_delta + P_uniform) / 2
     S_M_max = _compute_shannon_entropy(M_max)
     S_delta = 0.0
     return S_M_max - 0.5 * S_delta - 0.5 * S_Pu
-
-
-def compute_entropy_complexity(y, m=3, tau=1):
-    y = np.array(y)
-    
-    embedded_vectors = _construct_embedded_vectors(y, m, tau)
-    ordinal_patterns = _compute_ordinal_patterns(embedded_vectors)
-    P, P_full, n_permutations = _build_probability_distributions(ordinal_patterns, m)
-    
-    S_P = _compute_shannon_entropy(P)
-    S_max = np.log(math.factorial(m))
-    H_P = S_P / S_max
-    
-    P_u = np.ones(n_permutations) / n_permutations
-    S_Pu = _compute_shannon_entropy(P_u)
-    
-    J = _compute_jensen_shannon_divergence(P_full, P_u, S_P, S_Pu)
-    J_max = _compute_max_divergence(P_u, S_Pu)
-    
-    C_P = (J / J_max) * H_P
-    
-    return H_P, C_P
-
-
-def results(name, entropy, complexity):
-    """Store results (no output - see notebook for visualizations)"""
-    pass
