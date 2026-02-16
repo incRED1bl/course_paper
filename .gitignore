@@ -43,5 +43,3 @@ wheels/
 .DS_Store
 Thumbs.db
 
-# Colab notebooks
-colab/
