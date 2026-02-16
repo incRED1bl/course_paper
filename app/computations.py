@@ -1,63 +1,149 @@
-"""
-Low-level mathematical helper functions for feature computations.
-These are internal functions used by features.py.
-"""
-import numpy as np
+"""Low-level mathematical functions for time-series feature computation."""
+
 from collections import Counter
 from itertools import permutations
+from typing import List, Tuple
+
+import numpy as np
+from numpy.typing import NDArray
+
+EPSILON_ZERO = 1e-10
+EPSILON_LOG = 1e-12
 
 
-def _construct_embedded_vectors(y, m, tau):
-    """Construct embedded vectors from time series using time delay embedding."""
-    n_vectors = len(y) - (m - 1) * tau
-    if n_vectors <= 0:
-        raise ValueError("Time series too short for given m and tau")
+def build_embedded_vectors(
+    signal: NDArray[np.float64], 
+    embedding_dim: int, 
+    time_delay: int
+) -> List[List[float]]:
+    """
+    Create time-delay embedded vectors from signal.
     
-    return [[y[i + j * tau] for j in range(m)] for i in range(n_vectors)]
+    Args:
+        signal: Input time series
+        embedding_dim: Embedding dimension (m)
+        time_delay: Time delay between samples (tau)
+        
+    Returns:
+        List of embedded vectors
+        
+    Raises:
+        ValueError: If signal is too short for given parameters
+    """
+    n_vectors = len(signal) - (embedding_dim - 1) * time_delay
+    if n_vectors <= 0:
+        raise ValueError(
+            f"Signal length {len(signal)} too short for m={embedding_dim}, tau={time_delay}"
+        )
+    
+    return [
+        [signal[i + j * time_delay] for j in range(embedding_dim)]
+        for i in range(n_vectors)
+    ]
 
 
-def _compute_ordinal_patterns(embedded_vectors):
-    """Convert embedded vectors to ordinal patterns (permutations)."""
+def compute_ordinal_patterns(
+    embedded_vectors: List[List[float]]
+) -> List[Tuple[int, ...]]:
+    """
+    Convert embedded vectors to ordinal patterns.
+    
+    Args:
+        embedded_vectors: List of embedded vectors
+        
+    Returns:
+        List of ordinal patterns as tuples
+    """
     return [tuple(np.argsort(vector)) for vector in embedded_vectors]
 
 
-def _build_probability_distributions(ordinal_patterns, m):
-    """Build probability distributions from ordinal patterns."""
+def build_probability_distribution(
+    ordinal_patterns: List[Tuple[int, ...]],
+    embedding_dim: int
+) -> Tuple[NDArray[np.float64], NDArray[np.float64], int]:
+    """
+    Build probability distributions from ordinal patterns.
+    
+    Args:
+        ordinal_patterns: List of ordinal patterns
+        embedding_dim: Embedding dimension
+        
+    Returns:
+        Tuple of (observed_prob, full_prob, n_permutations)
+    """
     pattern_counts = Counter(ordinal_patterns)
     total_patterns = len(ordinal_patterns)
-    eps = 1e-10
     
-    P = np.array([pattern_counts[pattern] / (total_patterns + eps) 
-                  for pattern in pattern_counts.keys()])
+    observed_prob = np.array([
+        pattern_counts[pattern] / (total_patterns + EPSILON_ZERO)
+        for pattern in pattern_counts.keys()
+    ])
     
-    all_patterns = list(permutations(range(m)))
+    all_patterns = list(permutations(range(embedding_dim)))
     n_permutations = len(all_patterns)
     
-    P_full = np.zeros(n_permutations)
+    full_prob = np.zeros(n_permutations)
     for idx, pattern in enumerate(all_patterns):
         if pattern in pattern_counts:
-            P_full[idx] = pattern_counts[pattern] / (total_patterns + eps)
+            full_prob[idx] = pattern_counts[pattern] / (total_patterns + EPSILON_ZERO)
     
-    return P, P_full, n_permutations
+    return observed_prob, full_prob, n_permutations
 
 
-def _compute_shannon_entropy(distribution):
-    """Compute Shannon entropy of a probability distribution."""
-    return -np.sum(distribution * np.log(distribution + 1e-12))
+def compute_shannon_entropy(distribution: NDArray) -> float:
+    """
+    Calculate Shannon entropy of probability distribution.
+    
+    Args:
+        distribution: Probability distribution
+        
+    Returns:
+        Shannon entropy value
+    """
+    return float(-np.sum(distribution * np.log(distribution + EPSILON_LOG)))
 
 
-def _compute_jensen_shannon_divergence(P_full, P_uniform, S_P, S_Pu):
-    """Compute Jensen-Shannon divergence between two distributions."""
-    M = (P_full + P_uniform) / 2
-    S_M = _compute_shannon_entropy(M)
-    return S_M - 0.5 * S_P - 0.5 * S_Pu
+def compute_js_divergence(
+    prob_full: NDArray[np.float64],
+    prob_uniform: NDArray[np.float64],
+    entropy_p: float,
+    entropy_uniform: float
+) -> float:
+    """
+    Calculate Jensen-Shannon divergence between distributions.
+    
+    Args:
+        prob_full: Full probability distribution
+        prob_uniform: Uniform probability distribution
+        entropy_p: Entropy of prob_full
+        entropy_uniform: Entropy of prob_uniform
+        
+    Returns:
+        Jensen-Shannon divergence value
+    """
+    mixture = ((prob_full + prob_uniform) / 2).astype(np.float64)
+    entropy_mixture = compute_shannon_entropy(mixture)
+    return float(entropy_mixture - 0.5 * entropy_p - 0.5 * entropy_uniform)
 
 
-def _compute_max_divergence(P_uniform, S_Pu):
-    """Compute maximum possible Jensen-Shannon divergence."""
-    P_delta = np.zeros(len(P_uniform))
-    P_delta[0] = 1.0
-    M_max = (P_delta + P_uniform) / 2
-    S_M_max = _compute_shannon_entropy(M_max)
-    S_delta = 0.0
-    return S_M_max - 0.5 * S_delta - 0.5 * S_Pu
+def compute_max_divergence(
+    prob_uniform: NDArray[np.float64],
+    entropy_uniform: float
+) -> float:
+    """
+    Calculate maximum possible Jensen-Shannon divergence.
+    
+    Args:
+        prob_uniform: Uniform probability distribution
+        entropy_uniform: Entropy of uniform distribution
+        
+    Returns:
+        Maximum divergence value
+    """
+    prob_delta = np.zeros(len(prob_uniform))
+    prob_delta[0] = 1.0
+    
+    mixture_max = ((prob_delta + prob_uniform) / 2).astype(np.float64)
+    entropy_mixture_max = compute_shannon_entropy(mixture_max)
+    
+    return float(entropy_mixture_max - 0.5 * entropy_uniform)
