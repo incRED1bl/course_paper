@@ -7,7 +7,6 @@ This module provides high-level feature extraction functions for respiratory sou
 - Whistle/wheeze detection
 """
 import math
-from typing import Dict, Tuple
 
 import numpy as np
 from numpy.typing import NDArray
@@ -28,7 +27,7 @@ def compute_entropy_complexity(
     time_series: NDArray[np.float64],
     embedding_dim: int = 3,
     time_delay: int = 1
-) -> Tuple[float, float]:
+) -> tuple[float, float]:
     """
     Compute permutation entropy and statistical complexity using the Bandt-Pompe method.
     
@@ -79,7 +78,7 @@ def extract_frequency_features(
     audio_signal: NDArray[np.float64],
     sample_rate: int,
     n_fft: int = 2048
-) -> Tuple[NDArray[np.float64], NDArray[np.float64], Dict[str, float]]:
+) -> tuple[NDArray[np.float64], NDArray[np.float64], dict[str, float]]:
     """
     Extract frequency domain features from audio signal using Fast Fourier Transform.
     
@@ -95,7 +94,7 @@ def extract_frequency_features(
         Tuple containing:
             - frequencies (NDArray): Frequency bins in Hz
             - magnitudes (NDArray): Magnitude spectrum
-            - features (Dict[str, float]): Dictionary with keys:
+            - features (dict[str, float]): Dictionary with keys:
                 - 'spectral_centroid': Center of mass of spectrum (Hz)
                 - 'spectral_bandwidth': Standard deviation of spectrum (Hz)
                 - 'spectral_rolloff': Frequency below which 85% of energy exists (Hz)
@@ -138,8 +137,8 @@ def extract_frequency_features(
 def detect_whistles(
     audio_signal: NDArray[np.float64],
     sample_rate: int,
-    freq_range: Tuple[int, int] = (400, 1600)
-) -> Tuple[bool, float]:
+    freq_range: tuple[int, int] = (400, 1600)
+) -> tuple[bool, float]:
     """
     Detect whistle sounds (wheezes) in respiratory audio using spectrogram analysis.
     

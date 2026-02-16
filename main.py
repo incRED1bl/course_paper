@@ -1,43 +1,57 @@
-import sys
-import time
+"""
+Respiratory Sound Analysis - Local Demo
 
-# Show loading immediately before heavy imports
-print("⏳ Loading modules...", end="", flush=True)
+Example usage of the feature extraction API.
+"""
+import numpy as np
 
-from app import *
+from app import (
+    compute_entropy_complexity,
+    extract_frequency_features,
+    detect_whistles,
+)
+
+
+def main() -> None:
+    """Run a simple demo of feature extraction."""
+    # Generate sample signal (in real use, load from audio file)
+    sample_rate = 4000
+    duration = 1.0  # seconds
+    signal = np.random.randn(int(sample_rate * duration))
+    
+    print("🫁 Respiratory Sound Analysis Demo\n")
+    print(f"Signal length: {len(signal)} samples")
+    print(f"Sample rate: {sample_rate} Hz")
+    print(f"Duration: {duration} sec\n")
+    
+    # Extract entropy and complexity
+    print("📊 Computing entropy-complexity features...")
+    entropy, complexity = compute_entropy_complexity(
+        signal, 
+        embedding_dim=3, 
+        time_delay=1
+    )
+    print(f"  Normalized Entropy: {entropy:.4f}")
+    print(f"  Statistical Complexity: {complexity:.4f}\n")
+    
+    # Extract frequency features
+    print("🎵 Extracting frequency domain features...")
+    frequencies, magnitudes, freq_features = extract_frequency_features(
+        signal, 
+        sample_rate
+    )
+    print(f"  Spectral Centroid: {freq_features['spectral_centroid']:.2f} Hz")
+    print(f"  Spectral Bandwidth: {freq_features['spectral_bandwidth']:.2f} Hz")
+    print(f"  Peak Frequency: {freq_features['peak_frequency']:.2f} Hz\n")
+    
+    # Detect whistles/wheezes
+    print("🔍 Detecting whistles/wheezes...")
+    whistle_detected, whistle_strength = detect_whistles(signal, sample_rate)
+    print(f"  Whistle Detected: {whistle_detected}")
+    print(f"  Whistle Strength: {whistle_strength:.4f}\n")
+    
+    print("✅ Analysis complete!")
 
 
 if __name__ == "__main__":
-    print("\r✅ Modules loaded!" + " " * 50)
-    print("\n" + "=" * 70)
-    print("  Respiratory Sound Analysis - VS Code")
-    print("=" * 70)
-    
-    print("\n🧠 Analysis Functions Available:")
-    print("   • compute_entropy_complexity() - Calculate entropy & complexity")
-    print("   • extract_all_features() - Feature extraction")
-    print("   • build_feature_summary() - Build feature table")
-    
-    print("\n📊 Visualization Functions:")
-    print("   • All visualization code is in colab_notebook.ipynb")
-    print("   • 6 plotting functions built into the notebook")
-    print("   • No separate visual/ module needed")
-    
-    print("\n" + "─" * 70)
-    print("\n🚀 WORKFLOW:")
-    print("\n  1️⃣  Open colab/colab_notebook.ipynb in Google Colab")
-    print("  2️⃣  Run analysis with 3.69GB dataset")
-    print("  3️⃣  Download results (features.pkl, model.pkl)")
-    print("  4️⃣  Use results here in VS Code")
-    
-    print("\n📝 Example - Load Colab Results:")
-    print("   import pickle")
-    print("   with open('features.pkl', 'rb') as f:")
-    print("       data = pickle.load(f)")
-    
-    print("\n📚 Documentation:")
-    print("   • README.md - Project overview")
-    print("   • COLAB_GUIDE.md - Step-by-step Colab guide")
-    print("   • colab/colab_notebook.ipynb - All-in-one Colab notebook")
-    
-    print("\n" + "=" * 70)
+    main()

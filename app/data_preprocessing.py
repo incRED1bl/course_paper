@@ -7,7 +7,7 @@ This module provides functions for:
 - DataFrame-ready feature dictionaries
 - Feature summary generation and display
 """
-from typing import Dict, List, Any, Tuple
+from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
@@ -26,7 +26,7 @@ def extract_features_row(
     sample_rate: int,
     embedding_dim: int = 3,
     time_delay: int = 1
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Extract all features from a single audio signal for DataFrame insertion.
     
@@ -90,10 +90,10 @@ def extract_features_row(
 
 
 def extract_features_batch(
-    signals_dict: Dict[str, Dict[str, Any]],
+    signals_dict: dict[str, dict[str, Any]],
     embedding_dim: int = 3,
     time_delay: int = 1
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """
     Extract features from multiple audio signals in batch.
     
@@ -136,11 +136,11 @@ def extract_features_batch(
 
 
 def extract_all_features(
-    signals: Dict[str, NDArray[np.float64]],
+    signals: dict[str, NDArray[np.float64]],
     sample_rate: int,
     embedding_dim: int = 3,
     time_delay: int = 1
-) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Dict[str, Any]], Dict[str, Dict[str, float]]]:
+) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, Any]], dict[str, dict[str, float]]]:
     """
     Extract all feature types for multiple signals and organize into separate dictionaries.
     
@@ -198,11 +198,11 @@ def extract_all_features(
 
 
 def build_feature_summary(
-    signals: Dict[str, NDArray[np.float64]],
-    features_dict: Dict[str, Dict[str, Any]],
-    whistle_results: Dict[str, Dict[str, Any]],
-    entropy_complexity: Dict[str, Dict[str, float]]
-) -> Dict[str, Dict[str, float]]:
+    signals: dict[str, NDArray[np.float64]],
+    features_dict: dict[str, dict[str, Any]],
+    whistle_results: dict[str, dict[str, Any]],
+    entropy_complexity: dict[str, dict[str, float]]
+) -> dict[str, dict[str, float]]:
     """
     Build a comprehensive feature summary with normalized energy features.
     
@@ -259,7 +259,7 @@ def build_feature_summary(
     return signal_features
 
 
-def print_feature_summary(signal_features: Dict[str, Dict[str, float]]) -> None:
+def print_feature_summary(signal_features: dict[str, dict[str, float]]) -> None:
     """
     Print a formatted summary of all extracted features to console.
     

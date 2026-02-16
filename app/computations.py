@@ -2,7 +2,6 @@
 
 from collections import Counter
 from itertools import permutations
-from typing import List, Tuple
 
 import numpy as np
 from numpy.typing import NDArray
@@ -15,7 +14,7 @@ def build_embedded_vectors(
     signal: NDArray[np.float64], 
     embedding_dim: int, 
     time_delay: int
-) -> List[List[float]]:
+) -> list[list[float]]:
     """
     Create time-delay embedded vectors from signal.
     
@@ -43,8 +42,8 @@ def build_embedded_vectors(
 
 
 def compute_ordinal_patterns(
-    embedded_vectors: List[List[float]]
-) -> List[Tuple[int, ...]]:
+    embedded_vectors: list[list[float]]
+) -> list[tuple[int, ...]]:
     """
     Convert embedded vectors to ordinal patterns.
     
@@ -58,9 +57,9 @@ def compute_ordinal_patterns(
 
 
 def build_probability_distribution(
-    ordinal_patterns: List[Tuple[int, ...]],
+    ordinal_patterns: list[tuple[int, ...]],
     embedding_dim: int
-) -> Tuple[NDArray[np.float64], NDArray[np.float64], int]:
+) -> tuple[NDArray[np.float64], NDArray[np.float64], int]:
     """
     Build probability distributions from ordinal patterns.
     
