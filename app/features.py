@@ -72,11 +72,12 @@ def extract_frequency_features(audio_data, sample_rate, n_fft=2048):
     frequencies = np.fft.rfftfreq(n_fft, 1/sample_rate)
     magnitudes = np.abs(fft_result)
     
-    spectral_centroid = np.sum(frequencies * magnitudes) / np.sum(magnitudes)
+    eps = 1e-10
+    spectral_centroid = np.sum(frequencies * magnitudes) / (np.sum(magnitudes) + eps)
     
     feature_vector = {
         'spectral_centroid': spectral_centroid,
-        'spectral_bandwidth': np.sqrt(np.sum(((frequencies - spectral_centroid) ** 2) * magnitudes) / np.sum(magnitudes)),
+        'spectral_bandwidth': np.sqrt(np.sum(((frequencies - spectral_centroid) ** 2) * magnitudes) / (np.sum(magnitudes) + eps)),
         'spectral_rolloff': frequencies[np.where(np.cumsum(magnitudes) >= 0.85 * np.sum(magnitudes))[0][0]],
         'low_freq_energy': np.sum(magnitudes[frequencies < 500]),
         'mid_freq_energy': np.sum(magnitudes[(frequencies >= 500) & (frequencies < 1000)]),
@@ -106,7 +107,8 @@ def detect_whistles(audio_data, sample_rate, whistle_freq_range=(400, 1600)):
     whistle_energy = np.sum(Sxx[freq_mask, :])
     total_energy = np.sum(Sxx)
     
-    whistle_strength = whistle_energy / total_energy if total_energy > 0 else 0
+    eps = 1e-10
+    whistle_strength = whistle_energy / (total_energy + eps)
     whistle_detected = whistle_strength > 0.2
     
     return whistle_detected, whistle_strength

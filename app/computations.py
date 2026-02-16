@@ -25,8 +25,9 @@ def _build_probability_distributions(ordinal_patterns, m):
     """Build probability distributions from ordinal patterns."""
     pattern_counts = Counter(ordinal_patterns)
     total_patterns = len(ordinal_patterns)
+    eps = 1e-10
     
-    P = np.array([pattern_counts[pattern] / total_patterns 
+    P = np.array([pattern_counts[pattern] / (total_patterns + eps) 
                   for pattern in pattern_counts.keys()])
     
     all_patterns = list(permutations(range(m)))
@@ -35,7 +36,7 @@ def _build_probability_distributions(ordinal_patterns, m):
     P_full = np.zeros(n_permutations)
     for idx, pattern in enumerate(all_patterns):
         if pattern in pattern_counts:
-            P_full[idx] = pattern_counts[pattern] / total_patterns
+            P_full[idx] = pattern_counts[pattern] / (total_patterns + eps)
     
     return P, P_full, n_permutations
 

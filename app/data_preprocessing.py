@@ -34,12 +34,13 @@ def extract_features_row(filename, signal_data, sample_rate, m=3, tau=1):
                    freq_features['mid_freq_energy'] + 
                    freq_features['high_freq_energy'])
     
+    eps = 1e-10
     row = {
         'filename': filename,
         'patient_id': int(filename.split('_')[0]),
-        'low_freq_energy': freq_features['low_freq_energy'] / total_energy,
-        'mid_freq_energy': freq_features['mid_freq_energy'] / total_energy,
-        'high_freq_energy': freq_features['high_freq_energy'] / total_energy,
+        'low_freq_energy': freq_features['low_freq_energy'] / (total_energy + eps),
+        'mid_freq_energy': freq_features['mid_freq_energy'] / (total_energy + eps),
+        'high_freq_energy': freq_features['high_freq_energy'] / (total_energy + eps),
         'whistle_strength': whistle_strength,
         'spectral_centroid': freq_features['spectral_centroid'],
         'peak_frequency': freq_features['peak_frequency'],
@@ -138,10 +139,11 @@ def build_feature_summary(signals, features_dict, whistle_results, entropy_compl
                        freq_features['mid_freq_energy'] + 
                        freq_features['high_freq_energy'])
         
+        eps = 1e-10
         signal_features[signal_name] = {
-            'Low Freq Energy': freq_features['low_freq_energy'] / total_energy,
-            'Mid Freq Energy': freq_features['mid_freq_energy'] / total_energy,
-            'High Freq Energy': freq_features['high_freq_energy'] / total_energy,
+            'Low Freq Energy': freq_features['low_freq_energy'] / (total_energy + eps),
+            'Mid Freq Energy': freq_features['mid_freq_energy'] / (total_energy + eps),
+            'High Freq Energy': freq_features['high_freq_energy'] / (total_energy + eps),
             'Whistle Strength': whistle['strength'],
             'Spectral Centroid': freq_features['spectral_centroid'],
             'Peak Frequency': freq_features['peak_frequency'],
