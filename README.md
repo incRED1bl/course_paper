@@ -2,14 +2,10 @@
 
 # 🫁 Respiratory Sound Analysis
 
-### *Feature extraction from respiratory audio using Bandt-Pompe entropy and statistical complexity*
-
 [![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Poetry](https://img.shields.io/badge/Poetry-Package_Manager-60A5FA?style=for-the-badge&logo=poetry&logoColor=white)](https://python-poetry.org/)
+[![uv](https://img.shields.io/badge/uv-Package_Manager-DE5FE9?style=for-the-badge&logo=python&logoColor=white)](https://github.com/astral-sh/uv)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Colab](https://img.shields.io/badge/Open_in-Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white)](https://colab.research.google.com/)
-
-</div>
 
 ---
 
@@ -43,27 +39,9 @@ Built with **Python 3.13+** featuring modern type hints and clean code architect
 │   └── colab_notebook.ipynb   # Google Colab notebook for dataset analysis
 │
 ├── main.py                    # Local entry point
-├── pyproject.toml             # Poetry dependencies
+├── pyproject.toml             # uv dependencies
 └── LICENSE                    # MIT License
 ```
-
-### Module Overview
-
-- **`computations.py`** — Core mathematical functions with full type hints:
-  - `build_embedded_vectors()` — Time-delay embedding
-  - `compute_ordinal_patterns()` — Pattern extraction
-  - `build_probability_distribution()` — Statistical distributions
-  - `compute_shannon_entropy()` — Information theory metrics
-  
-- **`features.py`** — Feature extraction interface:
-  - `compute_entropy_complexity()` — Bandt-Pompe analysis
-  - `extract_frequency_features()` — Spectral analysis
-  - `detect_whistles()` — Wheeze detection
-  
-- **`data_preprocessing.py`** — Data pipeline utilities:
-  - `extract_features_row()` — Single signal processing
-  - `extract_features_batch()` — Batch processing
-  - `build_feature_summary()` — Result aggregation
 
 ---
 
@@ -82,57 +60,10 @@ Perfect for working with the full [Respiratory Sound Database](https://www.kaggl
 
 ```bash
 # Install dependencies
-poetry install
+uv sync
 
 # Run demo
-poetry run python main.py
-```
-
----
-
-## 📚 Core Functions
-
-### Feature Extraction
-
-```python
-# Entropy & Complexity Analysis
-entropy, complexity = compute_entropy_complexity(
-    time_series: NDArray[np.float64],
-    embedding_dim: int = 3,
-    time_delay: int = 1
-) -> tuple[float, float]
-
-# Frequency Domain Features
-freqs, mags, features = extract_frequency_features(
-    audio_signal: NDArray[np.float64],
-    sample_rate: int,
-    n_fft: int = 2048
-) -> tuple[NDArray, NDArray, dict[str, float]]
-
-# Whistle/Wheeze Detection
-detected, strength = detect_whistles(
-    audio_signal: NDArray[np.float64],
-    sample_rate: int,
-    freq_range: tuple[int, int] = (400, 1600)
-) -> tuple[bool, float]
-```
-
-### Usage Example
-
-```python
-from app import compute_entropy_complexity, extract_frequency_features
-import numpy as np
-
-# Your audio signal
-signal = np.random.randn(1000)
-sample_rate = 4000
-
-# Extract features
-entropy, complexity = compute_entropy_complexity(signal, embedding_dim=3)
-freqs, mags, features = extract_frequency_features(signal, sample_rate)
-
-print(f"Entropy: {entropy:.4f}, Complexity: {complexity:.4f}")
-print(f"Spectral Centroid: {features['spectral_centroid']:.2f} Hz")
+uv run python main.py
 ```
 
 ---
@@ -143,14 +74,6 @@ print(f"Spectral Centroid: {features['spectral_centroid']:.2f} Hz")
 ![SciPy](https://img.shields.io/badge/SciPy-1.17.0-8CAAE6?style=flat&logo=scipy&logoColor=white)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-3.9.0-11557C?style=flat&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-Latest-150458?style=flat&logo=pandas&logoColor=white)
-
-### Core Technologies
-
-- **Python 3.13+** — Modern type hints (`dict`, `list`, `tuple` syntax)
-- **Poetry** — Dependency management and virtual environments
-- **NumPy & SciPy** — Numerical computing and signal processing
-- **Type Safety** — Full type annotations with `numpy.typing.NDArray`
-- **Clean Architecture** — Separation of concerns (computations → features → preprocessing)
 
 ---
 

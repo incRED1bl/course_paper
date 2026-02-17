@@ -1,21 +1,14 @@
-[tool.poetry]
+[project]
 name = "course-paper"
 version = "0.1.0"
-description = "Entropy and complexity analysis of time series data"
-authors = ["Timur Toktamysov <timur.toktamysov@gmail.com>"]
+description = "Entropy and complexity analysis of respiratory sounds using Bandt-Pompe method"
 readme = "README.md"
-packages = [{include = "app"}]
-
-[tool.poetry.dependencies]
-python = "^3.13"
-numpy = "^2.4.0"
-scipy = "^1.17.0"
-matplotlib = "^3.9.0"
-ipykernel = "^6.29.0"
-kagglehub = "^0.3.0"
-
-[tool.poetry.group.dev.dependencies]
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.13"
+authors = [
+    {name = "Timur Toktamysov", email = "timur.toktamysov@gmail.com"}
+]
+dependencies = [
+    "matplotlib>=3.9.0",
+    "numpy>=2.4.0",
+    "scipy>=1.17.0",
+]
