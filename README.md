@@ -1,82 +1,88 @@
 <div align="center">
 
-# 🫁 Respiratory Sound Analysis
+# 🫁 RESPIRATORY SOUNDS
+
+> *where breath meets data*
+
+```
+◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+    Signal Processing
+         &
+    Audio Analysis
+◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣
+```
 
 [![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![uv](https://img.shields.io/badge/uv-Package_Manager-DE5FE9?style=for-the-badge&logo=python&logoColor=white)](https://github.com/astral-sh/uv)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Colab](https://img.shields.io/badge/Open_in-Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white)](https://colab.research.google.com/)
+[![Colab](https://img.shields.io/badge/Run_in-Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white)](https://colab.research.google.com/)
+
+</div>
 
 ---
 
-## 📖 About
+## 🌊 What's This About?
 
-A modern signal processing toolkit for extracting features from respiratory audio recordings using advanced time-series analysis methods.
+**Transform breath into data.** This toolkit extracts meaningful patterns from respiratory audio recordings using cutting-edge signal processing techniques. Think of it as giving machines the ability to "understand" what lungs are saying.
 
-Built with **Python 3.13+** featuring modern type hints and clean code architecture.
+> *From raw audio waveforms to actionable insights.*
 
-### ✨ Key Features
+<br>
 
-- 🧮 **Entropy & Complexity** — Bandt-Pompe permutation entropy for time-series analysis
-- 📊 **Frequency Analysis** — FFT-based spectral features and energy distribution
-- 🎵 **Wheeze Detection** — Automatic detection of whistling sounds and wheezes
-- 🔍 **Type Safety** — Full type hints using Python 3.9+ syntax (`dict`, `list`, `tuple`)
-- 📝 **Clean Code** — Comprehensive docstrings and descriptive function names
+## ✨ The Magic Inside
 
----
+<table>
+<tr>
+<td width="33%" align="center">
 
-## 🏗️ Project Structure
+### 🧮
+**Entropy & Complexity**
+
+Bandt-Pompe permutation entropy reveals hidden temporal patterns in breathing signals
+
+</td>
+<td width="33%" align="center">
+
+### 📊
+**Frequency Analysis**
+
+FFT-powered spectral decomposition extracts energy distribution across frequency bands
+
+</td>
+<td width="33%" align="center">
+
+### 🎵
+**Wheeze Detection**
+
+Automated identification of wheezes and whistling sounds in respiratory recordings
+
+</td>
+</tr>
+</table>
+
+<br>
+
+## 🎨 Built With Modern Stack
 
 ```
-📦 course_paper
-├── 📂 app/
-│   ├── __init__.py            # Public API exports
-│   ├── computations.py        # Low-level math (entropy, divergence, patterns)
-│   ├── features.py            # High-level features (entropy-complexity, FFT, whistles)
-│   └── data_preprocessing.py  # Batch processing & DataFrame utilities
-│
-├── 📂 colab/
-│   └── colab_notebook.ipynb   # Google Colab notebook for dataset analysis
-│
-├── main.py                    # Local entry point
-├── pyproject.toml             # uv dependencies
-└── LICENSE                    # MIT License
+┌─────────────────────────────────────────┐
+│  NumPy      →  Numerical computation    │
+│  SciPy      →  Signal processing        │
+│  Matplotlib →  Visualization engine     │
+│  Pandas     →  Data manipulation        │
+└─────────────────────────────────────────┘
 ```
+
+**Python 3.13+** • Modern type hints • Clean architecture
+
+<br>
 
 ---
 
-## 🚀 Quick Start
+<div align="center">
 
-### Option 1: Google Colab (Recommended)
+**MIT Licensed** • Made with 💙 for respiratory health research
 
-```bash
-1. Open colab/colab_notebook.ipynb in Google Colab
-2. Follow the notebook instructions
-```
+*Questions? Contributions? You're welcome here.*
 
-Perfect for working with the full [Respiratory Sound Database](https://www.kaggle.com/datasets/vbookshelf/respiratory-sound-database) (3.69GB)
-
-### Option 2: Local Development
-
-```bash
-# Install dependencies
-uv sync
-
-# Run demo
-uv run python main.py
-```
-
----
-
-## 🛠️ Tech Stack
-
-![NumPy](https://img.shields.io/badge/NumPy-2.4.0-013243?style=flat&logo=numpy&logoColor=white)
-![SciPy](https://img.shields.io/badge/SciPy-1.17.0-8CAAE6?style=flat&logo=scipy&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-3.9.0-11557C?style=flat&logo=python&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-Latest-150458?style=flat&logo=pandas&logoColor=white)
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+</div>
