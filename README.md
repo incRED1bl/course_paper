@@ -35,31 +35,6 @@
 <tr>
 <td width="33%" align="center">
 
-### 🧮
-**Entropy & Complexity**
-
-Bandt-Pompe permutation entropy reveals hidden temporal patterns in breathing signals
-
-</td>
-<td width="33%" align="center">
-
-### 📊
-**Frequency Analysis**
-
-FFT-powered spectral decomposition extracts energy distribution across frequency bands
-
-</td>
-<td width="33%" align="center">
-
-### 🎵
-**Wheeze Detection**
-
-Automated identification of wheezes and whistling sounds in respiratory recordings
-
-</td>
-</tr>
-</table>
-
 <br>
 
 ## 🎨 Built With Modern Stack
@@ -75,7 +50,7 @@ Automated identification of wheezes and whistling sounds in respiratory recordin
 
 **Python 3.13+** • Modern type hints • Clean architecture
 
-<br>
+b
 
 ---
 
