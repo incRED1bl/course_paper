@@ -5,6 +5,7 @@ from numpy.typing import NDArray
 
 from .computations import EPSILON_ZERO
 from .features import (
+    AudioFeatureExtractor,
     compute_entropy_complexity,
     extract_frequency_features,
     detect_whistles,
@@ -15,14 +16,18 @@ def extract_features_row(
     filename: str,
     audio_signal: NDArray[np.float64],
     sample_rate: int,
+    extractor: AudioFeatureExtractor | None = None,
     embedding_dim: int = 3,
     time_delay: int = 1
 ) -> dict[str, Any]:
+    if extractor is None:
+        extractor = AudioFeatureExtractor()
+
     _, _, freq_features = extract_frequency_features(
         audio_signal, sample_rate
     )
     
-    whistle_detected, whistle_strength = detect_whistles(audio_signal, sample_rate)
+    _, whistle_strength = detect_whistles(audio_signal, sample_rate)
     
     entropy, complexity = compute_entropy_complexity(
         audio_signal, embedding_dim=embedding_dim, time_delay=time_delay
@@ -34,6 +39,8 @@ def extract_features_row(
         freq_features['high_freq_energy']
     )
     total_energy_safe = total_energy + EPSILON_ZERO
+
+    advanced_features = extractor.extract(audio_signal, sample_rate)
     
     return {
         'filename': filename,
@@ -46,19 +53,25 @@ def extract_features_row(
         'peak_frequency': freq_features['peak_frequency'],
         'entropy': entropy,
         'complexity': complexity,
+        **advanced_features,
     }
 
 
 def extract_features_batch(
     signals_dict: dict[str, dict[str, Any]],
+    extractor: AudioFeatureExtractor | None = None,
     embedding_dim: int = 3,
     time_delay: int = 1
 ) -> list[dict[str, Any]]:
+    if extractor is None:
+        extractor = AudioFeatureExtractor()
+
     return [
         extract_features_row(
             filename, 
             data['signal'], 
             data['sample_rate'],
+            extractor=extractor,
             embedding_dim=embedding_dim, 
             time_delay=time_delay
         )
