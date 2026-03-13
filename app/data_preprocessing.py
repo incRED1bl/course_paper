@@ -8,7 +8,6 @@ from .features import (
     AudioFeatureExtractor,
     compute_entropy_complexity,
     extract_frequency_features,
-    detect_whistles,
 )
 
 
@@ -27,8 +26,6 @@ def extract_features_row(
         audio_signal, sample_rate
     )
     
-    _, whistle_strength = detect_whistles(audio_signal, sample_rate)
-    
     entropy, complexity = compute_entropy_complexity(
         audio_signal, embedding_dim=embedding_dim, time_delay=time_delay
     )
@@ -40,17 +37,13 @@ def extract_features_row(
     )
     total_energy_safe = total_energy + EPSILON_ZERO
 
-    advanced_features = extractor.extract(audio_signal, sample_rate)
+    advanced_features = extractor.extract_golden(audio_signal, sample_rate)
     
     return {
         'filename': filename,
         'patient_id': int(filename.split('_')[0]),
         'low_freq_energy': freq_features['low_freq_energy'] / total_energy_safe,
-        'mid_freq_energy': freq_features['mid_freq_energy'] / total_energy_safe,
-        'high_freq_energy': freq_features['high_freq_energy'] / total_energy_safe,
-        'whistle_strength': whistle_strength,
         'spectral_centroid': freq_features['spectral_centroid'],
-        'peak_frequency': freq_features['peak_frequency'],
         'entropy': entropy,
         'complexity': complexity,
         **advanced_features,
