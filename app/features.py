@@ -3,7 +3,7 @@ import numpy as np
 import ordpy
 from numpy.typing import NDArray
 
-from .computations import EPSILON_ZERO
+EPSILON_ZERO = 1e-10
 
 
 class AudioFeatureExtractor:
