@@ -3,12 +3,13 @@ from typing import Any
 import numpy as np
 from numpy.typing import NDArray
 
-from .computations import EPSILON_ZERO
 from .features import (
     AudioFeatureExtractor,
     compute_entropy_complexity,
     extract_frequency_features,
 )
+
+EPSILON_ZERO = 1e-10
 
 
 def extract_features_row(
