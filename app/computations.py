@@ -1,1 +1,0 @@
-EPSILON_ZERO = 1e-10
