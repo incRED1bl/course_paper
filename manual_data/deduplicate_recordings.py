@@ -13,6 +13,9 @@ from collections import defaultdict
 from pathlib import Path
 
 
+EXCLUDED_DIAGNOSES = {'Audio files', 'Unknown'}
+
+
 def extract_recording_id(filename: str) -> str:
     """
     Extract the recording ID from filename.
@@ -31,6 +34,13 @@ def load_data(csv_path: str) -> list[dict]:
         reader = csv.DictReader(f)
         data = list(reader)
     return data
+
+
+def filter_noisy_diagnoses(data: list[dict]) -> tuple[list[dict], int]:
+    """Remove rows with noisy diagnosis labels."""
+    filtered = [row for row in data if row.get('diagnosis') not in EXCLUDED_DIAGNOSES]
+    dropped = len(data) - len(filtered)
+    return filtered, dropped
 
 
 def find_duplicates(data: list[dict]) -> dict:
@@ -93,7 +103,12 @@ def deduplicate(input_csv: str, output_csv: str) -> dict:
     """
     print("Loading data...")
     data = load_data(input_csv)
-    print(f"Loaded {len(data)} records")
+    total_records = len(data)
+    print(f"Loaded {total_records} records")
+
+    data, noisy_dropped = filter_noisy_diagnoses(data)
+    print(f"Dropped noisy diagnoses ({', '.join(sorted(EXCLUDED_DIAGNOSES))}): {noisy_dropped}")
+    print(f"Records after diagnosis cleanup: {len(data)}")
     
     print("\nFinding duplicates...")
     duplicates = find_duplicates(data)
@@ -142,7 +157,9 @@ def deduplicate(input_csv: str, output_csv: str) -> dict:
             writer.writerows(final_data)
     
     stats = {
-        'total_records': len(data),
+        'total_records': total_records,
+        'noisy_diagnoses_dropped': noisy_dropped,
+        'records_after_cleanup': len(data),
         'duplicates_found': len(duplicates),
         'records_dropped': dropped_count,
         'remaining_records': len(final_data),
@@ -165,9 +182,12 @@ if __name__ == '__main__':
     print("SUMMARY")
     print("="*60)
     print(f"Original records:     {stats['total_records']}")
+    print(f"Noisy rows dropped:   {stats['noisy_diagnoses_dropped']}")
+    print(f"After cleanup:        {stats['records_after_cleanup']}")
     print(f"Duplicate groups:     {stats['duplicates_found']}")
     print(f"Records dropped:      {stats['records_dropped']}")
     print(f"Final records:        {stats['remaining_records']}")
-    print(f"Reduction:            {stats['records_dropped']} ({100*stats['records_dropped']/stats['total_records']:.1f}%)")
+    total_reduction = stats['total_records'] - stats['remaining_records']
+    print(f"Total reduction:      {total_reduction} ({100*total_reduction/stats['total_records']:.1f}%)")
     print("="*60)
     print(f"\nOutput saved to: {output_file}")
