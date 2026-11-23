@@ -1,63 +1,27 @@
-<div align="center">
+# Respiratory Sound Classification
 
-# 🫁 RESPIRATORY SOUNDS
+Course research project at HSE University. The model classifies respiratory sounds into three groups: healthy, chronic obstructive pulmonary disease (COPD), and respiratory infection. The acoustic features include Bandt–Pompe permutation entropy, a measure of signal complexity.
 
-> *where breath meets data*
+[Open the final notebook](colab/model/final_pipeline.ipynb) for the modeling pipeline, confusion matrix, and saved evaluation results.
 
-```
-◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
-    Signal Processing
-         &
-    Audio Analysis
-◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣◥◣
-```
+## Evaluation
 
-[![Python](https://img.shields.io/badge/Python-3.13+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![uv](https://img.shields.io/badge/uv-Package_Manager-DE5FE9?style=for-the-badge&logo=python&logoColor=white)](https://github.com/astral-sh/uv)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Colab](https://img.shields.io/badge/Run_in-Colab-F9AB00?style=for-the-badge&logo=google-colab&logoColor=white)](https://colab.research.google.com/)
+- Split the data by patient ID so that no patient appears in both the training and test partitions. The test partition is one fold of a stratified group split.
+- Used a conditional variational autoencoder (CVAE) to generate additional feature vectors for underrepresented classes in the training partition.
+- Chose the threshold for predicting a disease class by maximizing macro-F₂ on a validation subset of the training partition. F₂ gives more weight to recall than precision, and macro averaging gives each class equal weight.
 
-</div>
+## Held-out test results
 
----
+| Metric | Score |
+| --- | ---: |
+| Macro-F₂ | **0.8391** |
+| Weighted-F₂ | 0.8911 |
+| Macro-F₁ | 0.8415 |
 
-## 🌊 What's This About?
+| Class | Recall | Test examples |
+| --- | ---: | ---: |
+| Healthy | 0.7429 | 35 |
+| COPD | 0.9471 | 170 |
+| Respiratory infection | 0.8226 | 62 |
 
-**Transform breath into data.** This toolkit extracts meaningful patterns from respiratory audio recordings using cutting-edge signal processing techniques. Think of it as giving machines the ability to "understand" what lungs are saying.
-
-> *From raw audio waveforms to actionable insights.*
-
-<br>
-
-## ✨ The Magic Inside
-
-<table>
-<tr>
-<td width="33%" align="center">
-
-<br>
-
-## 🎨 Built With Modern Stack
-
-```
-┌─────────────────────────────────────────┐
-│  NumPy      →  Numerical computation    │
-│  SciPy      →  Signal processing        │
-│  Matplotlib →  Visualization engine     │
-│  Pandas     →  Data manipulation        │
-└─────────────────────────────────────────┘
-```
-
-**Python 3.13+** • Modern type hints • Clean architecture
-
-b
-
----
-
-<div align="center">
-
-**MIT Licensed** • Made with 💙 for respiratory health research
-
-*Questions? Contributions? You're welcome here.*
-
-</div>
+The notebook uses the [prepared feature table](colab/data/enlarged_dataset.csv). Adjust the CSV path in the data-loading cell if you run it outside the original Colab environment.
